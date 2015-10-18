@@ -2,10 +2,10 @@ boolean debug  = true;
 
 PFont debugFont;
 
-int gridAcross  = 4;
-int gridDown    = 2;
+int gridAcross  = 10;
+int gridDown    = 5;
 int outerMargin = 50;
-int innerMargin = 50;
+int innerMargin = 0;
 
 
 float diameter   = 300;
@@ -21,7 +21,7 @@ Grid grid;
 
 void setup() {
   size(1200, 800);
-
+  pixelDensity(2);
   // Set up fonts
   debugFont = createFont("Consolas", 10);
 

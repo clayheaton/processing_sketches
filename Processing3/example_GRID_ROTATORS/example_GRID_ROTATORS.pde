@@ -2,7 +2,7 @@ boolean debug  = true;
 
 PFont debugFont;
 
-int gridAcross = 15;
+int gridAcross = 8;
 int gridDown   = 5;
 
 int theMargin  = 50;
@@ -12,8 +12,8 @@ boolean pause;
 Grid grid;
 
 void setup() {
-  size(1200, 800);
-
+  size(800, 600);
+  pixelDensity(2);
   // Set up fonts
   debugFont = createFont("Consolas", 10);
 

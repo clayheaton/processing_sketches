@@ -1,0 +1,127 @@
+{
+    "backgroundLayer": {
+        "background_color":"dark-grey",
+        "text_color"      :"white",
+        "font"            :"Consolas-Bold",
+        "font-size"       :14,
+        "rects": [
+            {
+                "x":0,
+                "y":0,
+                "w":0.3,
+                "h":1,
+                "fill":"navy",
+                "stroke":"noStroke",
+                "strokeWeight":1.5
+            },
+            {
+                "x":0.31,
+                "y":0,
+                "w":1,
+                "h":1,
+                "fill":"black",
+                "stroke":"black",
+                "strokeWeight":3 
+            },
+            {
+                "x":0.5,
+                "y":0.5,
+                "w":0.25,
+                "h":0.25,
+                "fill":"white",
+                "stroke":"red",
+                "strokeWeight":3
+            }
+        ]
+    },
+
+    "colors": [
+        {   "name":"black",
+            "r":0,
+            "g":0,
+            "b":0,
+            "a":255
+        },
+        {   "name":"dark-grey",
+            "r":50,
+            "g":50,
+            "b":50,
+            "a":255
+        },
+        {   "name":"white",
+            "r":255,
+            "g":255,
+            "b":255,
+            "a":255
+        },
+        {   "name":"red",
+            "r":255,
+            "g":0,
+            "b":0,
+            "a":255
+        },
+        {
+            "name":"yellow",
+            "r":247,
+            "g":219,
+            "b":0,
+            "a":255
+        },
+        {
+            "name":"magenta",
+            "r":247,
+            "g":0,
+            "b":194,
+            "a":255
+        },
+        {
+            "name":"purple",
+            "r":151,
+            "g":0,
+            "b":211,
+            "a":255
+        },
+        {
+            "name":"turquoise",
+            "r":26,
+            "g":255,
+            "b":249,
+            "a":255
+        },
+        {
+            "name":"orange",
+            "r":255,
+            "g":137,
+            "b":26,
+            "a":255
+        },
+        {
+            "name":"seafoam",
+            "r":0,
+            "g":245,
+            "b":185,
+            "a":255
+        },
+        {
+            "name":"navy",
+            "r":0,
+            "g":24,
+            "b":90,
+            "a":255
+        },
+        {
+            "name":"green",
+            "r":0,
+            "g":255,
+            "b":0,
+            "a":255
+        },
+        {
+            "name":"lime",
+            "r":92,
+            "g":198,
+            "b":0,
+            "a":255
+        }
+    ],
+}
