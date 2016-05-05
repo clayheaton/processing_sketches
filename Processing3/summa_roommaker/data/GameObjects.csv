@@ -1,0 +1,11 @@
+name,debug_name,key_name,image_name,allows_sitting,allows_lying,is_furniture,allows_walking
+Bed,Dorm Bed,dsb,bed_student.png,1,1,1,0
+Chair,Desk Chair,dsc,chair_desk.png,1,0,1,0
+Desk,Dorm Desk,dsd,desk_student.png,0,1,1,0
+Chest of Drawers,Dorm Chest of Drawers,dcd,drawers_student.png,0,0,1,0
+Dresser,Dorm Dresser,ddr,dresser_student.png,0,0,1,0
+Wooden Floor,Dorm Wooden Floor,dwf,floor_wooden.png,1,1,0,1
+Brick Wall,Dorm Brick Wall,dbw,wall_brick.png,0,0,0,0
+Wall,Dorm Internal Wall,diw,wall_internal.png,0,0,0,0
+Door,Dorm Room Door - Closed,ddc,door_dormroom.png,0,0,0,0
+Door,Dorm Room Door - Open,ddo,door_dormroom_open.png,0,0,0,1
