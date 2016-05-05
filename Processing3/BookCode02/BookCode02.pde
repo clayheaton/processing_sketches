@@ -7,7 +7,7 @@ void setup(){
 
 void draw(){
  
-  String h = "Tom Chick writes the best game reviews available on the interwebs.";
+  String h = "I removed the answer so you folks wouldn't cheat. :D";
   
   Encoder e = new Encoder();
   e.space = true;
