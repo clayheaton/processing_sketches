@@ -25,6 +25,7 @@ final float DIRECTION_SE = PI/4;
 float offsetX, offsetY;
 
 GameGrid gameGrid;
+ArrayList<UILayer> uiLayers;
 
 void setup() {
   size(576, 768);
@@ -33,6 +34,14 @@ void setup() {
   offsetY = 0;
 
   gameGrid = new GameGrid(GameGridWidth, GameGridHeight, GameGridPixelSize);
+  uiLayers = new ArrayList<UILayer>();
+  
+  // Move bar at bottom
+  UILayer bottomBar = new UILayer();
+  bottomBar.bgColor = color(0);
+  bottomBar.pixelsTall = 80;
+  uiLayers.add(bottomBar);
+  
 }
 
 void draw() {
@@ -41,6 +50,10 @@ void draw() {
   translate(offsetX, offsetY);
   gameGrid.display();
   popMatrix();
+  
+  for (UILayer l: uiLayers){
+     l.display(); 
+  }
 }
 
 void mouseDragged() {
