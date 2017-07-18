@@ -32,16 +32,21 @@ final float DIRECTION_SE = PI/4;
 boolean advanceTurn = false;
 float offsetX, offsetY;
 
+Disease disease;
 GameGrid gameGrid;
 ArrayList<UILayer> uiLayers;
 
 void setup() {
-  pixelDensity(2);
+  //pixelDensity(2);
   size(576, 768);
   background(255);
   offsetX = 0;
   offsetY = 0;
+  
+  // Comment this out for random games
+  randomSeed(1);
 
+  disease  = new Disease();
   gameGrid = new GameGrid(GameGridWidth, GameGridHeight, GameGridPixelSize);
   uiLayers = new ArrayList<UILayer>();
 

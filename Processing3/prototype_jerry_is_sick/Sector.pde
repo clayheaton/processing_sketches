@@ -44,6 +44,7 @@ class Sector {
       mouseY - offsetY > this.position.y &&
       mouseY - offsetY < this.position.y + this.h) {
       this.isSelected = true;
+      
       // Tell the grid that this is the selected sector
       gameGrid.selectedSector.x = this.xCoord;
       gameGrid.selectedSector.y = this.yCoord;
@@ -53,7 +54,7 @@ class Sector {
   }
   
   void setState(int newState){
-    this.sectorPerson.state = newState;
+    this.sectorPerson.setState(newState);
   }
 
   void advanceTurn() {
@@ -71,17 +72,19 @@ class Sector {
       } else if (this.isSelected) {
         fill(128, 128, 128);
       } else {
-        fill(230, 230, 230);
+        fill(255, 255, 255);
       }
 
       textAlign(LEFT);
 
       pushMatrix();
       translate(this.position.x, this.position.y);
-      rect(0, 0, this.w, this.h);
-      textSize(10);
-      fill(0);
-      text("(" + xCoord + ", " + yCoord + ")", 4, 11);
+      if (this.isUnderMousePointer || this.isSelected){
+        rect(0, 0, this.w, this.h);
+      }
+      // textSize(10);
+      // fill(0);
+      // text("(" + xCoord + ", " + yCoord + ")", 4, 11);
       popMatrix();
     }
 
