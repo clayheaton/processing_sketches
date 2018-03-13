@@ -11,12 +11,14 @@ void setup() {
   size(400, 400);
   background(18, 37, 54);
   smooth();
+  //frameRate(15);
   // pixelDensity(2);
   center = new PVector(width/2, height/2);
 
   gifExport = new GifMaker(this, "export.gif");
   gifExport.setRepeat(1);
   gifExport.setTransparent(255, 255, 255);
+  gifExport.setDelay(1000/60);
 }
 
 void draw() {
@@ -43,6 +45,7 @@ void draw() {
 
   if (TWO_PI - angle > 0.02) {
     gifExport.addFrame();
+    
   } else {
     gifExport.finish();
     noLoop();
