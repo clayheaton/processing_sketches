@@ -20,6 +20,7 @@ class FlairSector extends Sector {
     
     pushMatrix();
     translate(this.center.x, this.center.y);
+    rotate(this.flair.rot);
     this.flair.display();
     popMatrix();
   }

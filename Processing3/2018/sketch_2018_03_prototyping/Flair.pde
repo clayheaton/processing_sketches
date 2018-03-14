@@ -1,6 +1,6 @@
 class Flair {
   int w, h, r, g, b;
-  float shear;
+  float shear, rot;
   PVector upperLeft, upperRight, lowerRight, lowerLeft;
   
   Flair() {
@@ -9,6 +9,7 @@ class Flair {
     this.r = (int)random(flair_minRed, flair_maxRed);
     this.g = (int)random(flair_minGreen, flair_maxGreen);
     this.b = (int)random(flair_minBlue, flair_maxBlue);
+    this.rot = random(flair_minRotation, flair_maxRotation);
     this.shear = random(flair_minShear, flair_maxShear);
     
     float offset = this.shear * this.w / 2;
