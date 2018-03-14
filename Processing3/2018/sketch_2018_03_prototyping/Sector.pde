@@ -1,27 +1,31 @@
 class Sector {
   int xCoord, yCoord, w, h;
   PVector corner, center;
+
   Sector(int _x, int _y, PVector _corner, int _w, int _h) {
     this.xCoord = _x;
     this.yCoord = _y;
     this.corner = _corner;
     w = _w;
     h = _h;
+    
+    this.center = new PVector(this.corner.x + w/2, this.corner.y + h/2);
   }
 
   void display() {
     if (debug) {
-      noFill();
-      stroke(200);
-      rect(this.corner.x, this.corner.y, this.w, this.h);
+      debugDisplay();
     }
   }
-}
+  
+  void rebuild() {
+     println("rebuild() not implemented in subclass");
+  }
 
-// Reads and draws flair components
-class FlairSector extends Sector {
-  FlairSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
+  void debugDisplay() {
+    noFill();
+    stroke(200);
+    rect(this.corner.x, this.corner.y, this.w, this.h);
   }
 }
 
@@ -50,7 +54,6 @@ class TailSector extends Sector {
 }
 
 class ShipSector extends Sector {
-
   ShipSector(int _x, int _y, PVector _corner, int _w, int _h) {
     super(_x, _y, _corner, _w, _h);
   }

@@ -13,6 +13,15 @@ class Grid {
     makeSectors();
   }
   
+  void rebuild(){
+    for (int x = 0; x < this.sectorsAcross; x++) {
+      for (int y = 0; y < this.sectorsDown; y++) {
+        Sector s = sectors[x][y];
+        s.rebuild();
+      }
+    }
+  }
+  
   void display() {
     for (int x = 0; x < this.sectorsAcross; x++) {
       for (int y = 0; y < this.sectorsDown; y++) {
@@ -30,6 +39,7 @@ class Grid {
       for (int x = 0; x < sectorsAcross; x++) {
         PVector secCorner = new PVector(x*sectorW + GRID_OUTER_MARGIN + (x * GRID_INNER_MARGIN) + UI_PANEL_WIDTH,
                                         y*sectorH + GRID_OUTER_MARGIN + (y * GRID_INNER_MARGIN));
+        // TODO: Catch other kinds of grids
         FlairSector s = new FlairSector(x, y, secCorner, sectorW, sectorH);
         sectors[x][y] = s;
       }
