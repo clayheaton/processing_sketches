@@ -33,7 +33,7 @@ int flair_minGreen, flair_maxGreen;
 int flair_minBlue, flair_maxBlue;
 
 ControlP5 cp5;
-Grid activeGrid, flairGrid;
+Grid activeGrid, flairGrid, cockpitGrid;
 
 void setup() {
   size(1280, 720); 
@@ -43,6 +43,9 @@ void setup() {
   // Set up the Grids
   flairGrid = new Grid(5, 3, "flair");
   activeGrid = flairGrid;
+  
+  cockpitGrid = new Grid(4, 2, "cockpit");
+  
   setupControls();
   background(255);
 }
@@ -51,7 +54,7 @@ void setup() {
 void draw() {
   background(255);
   drawUIPanel();
-  flairGrid.display();
+  activeGrid.display();
 }
 
 void drawUIPanel() {
@@ -60,7 +63,23 @@ void drawUIPanel() {
   rect(0, 0, UI_PANEL_WIDTH, height);
 }
 
+void handleTabEvents(ControlEvent theControlEvent){
+  String tabName = theControlEvent.getTab().getName();
+  println("Clicked " + tabName);
+  
+  if (tabName == "default") {
+    activeGrid = flairGrid;
+  } else if (tabName == "cockpits"){
+    activeGrid = cockpitGrid;
+  }
+  
+}
+
 void controlEvent(ControlEvent theControlEvent) {
+  if (theControlEvent.isTab()){
+     handleTabEvents(theControlEvent);
+     return;
+  }
   if (theControlEvent.isFrom("flair width")) {
     // min and max values are stored in an array.
     // access this array with controller().arrayValue().
@@ -107,6 +126,7 @@ void controlEvent(ControlEvent theControlEvent) {
     println("flair_minBlue, flair_maxBlue: " + flair_minBlue + ", " + flair_maxBlue);
   }
 }
+
 
 void setupControls() {
   cp5 = new ControlP5(this);
