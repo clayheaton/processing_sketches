@@ -6,7 +6,7 @@ class FlairSector extends Sector {
   Flair flair;
   FlairSector(int _x, int _y, PVector _corner, int _w, int _h) {
     super(_x, _y, _corner, _w, _h);
-    flair = new Flair();
+    rebuild();
   }
   
   void rebuild(){
@@ -20,7 +20,6 @@ class FlairSector extends Sector {
     
     pushMatrix();
     translate(this.center.x, this.center.y);
-    rotate(this.flair.rot);
     this.flair.display();
     popMatrix();
   }

@@ -23,11 +23,14 @@ class Flair {
   void display(){
     fill(this.r, this.g, this.b);
     noStroke();
+    pushMatrix();
+    rotate(this.rot);
     beginShape();
     vertex(upperLeft.x, upperLeft.y);
     vertex(upperRight.x, upperRight.y);
     vertex(lowerRight.x, lowerRight.y);
     vertex(lowerLeft.x, lowerLeft.y);
     endShape(CLOSE);
+    popMatrix();
   }
 }
