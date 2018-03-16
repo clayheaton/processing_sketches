@@ -81,7 +81,7 @@ void setup() {
   flairGrid = new Grid(5, 3, "flair");
   activeGrid = flairGrid;
 
-  cockpitGrid = new Grid(4, 2, "cockpit");
+  cockpitGrid = new Grid(3, 2, "cockpit");
 
   setupControls();
   background(255);
