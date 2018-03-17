@@ -11,6 +11,9 @@ static int GRID_INNER_MARGIN = 20;
 static float SCALE_MIN = 0;
 static float SCALE_MAX = 1.0;
 
+static float SHEAR_MIN = 0;
+static float SHEAR_MAX = 10.0;
+
 static float ROTATION_MIN = 0;
 static float ROTATION_MAX = TWO_PI;
 
@@ -68,20 +71,46 @@ int cockpit_minBlue, cockpit_maxBlue;
 END COCKPITS
  */
 
+/*
+WINGS
+ */
+ 
+static int WINGS_MIN_WIDTH = 20;
+static int WINGS_MAX_WIDTH = 150;
+static int WINGS_MIN_HEIGHT = 150;
+static int WINGS_MAX_HEIGHT = 300;
+
+Range wingsRedRange, wingsGreenRange, wingsBlueRange;
+int wings_minRed, wings_maxRed;
+int wings_minGreen, wings_maxGreen;
+int wings_minBlue, wings_maxBlue;
+
+Range wingsWidthTopRange, wingsWidthBottomRange, wingsHeightRange, wingsShearRange, wingsRotationRange;
+int wings_minWidthTop, wings_maxWidthTop;
+int wings_minWidthBottom, wings_maxWidthBottom;
+int wings_minHeight, wings_maxHeight;
+float wings_minShear, wings_maxShear;
+float wings_minRotation, wings_maxRotation;
+
+/*
+END WINGS
+ */
+
 ControlP5 cp5;
-Grid activeGrid, flairGrid, cockpitGrid;
+Grid activeGrid, flairGrid, cockpitGrid, wingsGrid;
 
 void setup() {
   size(1280, 720); 
 
   setFlairRangeValues();
   setCockpitRangeValues();
+  setWingsRangeValues();
 
   // Set up the Grids
   flairGrid = new Grid(5, 3, "flair");
   activeGrid = flairGrid;
-
   cockpitGrid = new Grid(3, 2, "cockpit");
+  wingsGrid = new Grid(3, 1, "wings");
 
   setupControls();
   background(255);
@@ -112,6 +141,8 @@ void switchTabs(ControlEvent theControlEvent) {
     activeGrid = flairGrid;
   } else if (tabName == "cockpits") {
     activeGrid = cockpitGrid;
+  } else if (tabName == "wings") {
+    activeGrid = wingsGrid;
   }
 }
 
@@ -128,6 +159,9 @@ void controlEvent(ControlEvent theControlEvent) {
   } else if
     (activeTab == "cockpit") { 
     handleCockpitEvents(theControlEvent);
+  } else if
+    (activeTab == "wings") {
+    handleWingsEvents(theControlEvent);
   }
 }
 
@@ -165,6 +199,7 @@ void setupControls() {
 
   createFlairUIComponents();
   createCockpitUIComponents();
+  createWingsUIComponents();
 }
 
 // Functions called by controlp5 buttons
@@ -175,6 +210,7 @@ public void rebuild(int theValue) {
 public void reset(int theValue) {
   if (activeGrid.sectorType == "flair") setFlairRangeValues();
   if (activeGrid.sectorType == "cockpit") setCockpitRangeValues();
+  if (activeGrid.sectorType == "wings") setWingsRangeValues();
   activeGrid.rebuild();
 }
 
@@ -363,7 +399,7 @@ void handleCockpitEvents(ControlEvent theControlEvent) {
     cockpit_maxBlue = int(theControlEvent.getController().getArrayValue(1));
     println("cockpit_minBlue, cockpit_maxBlue: " + cockpit_minBlue + ", " + cockpit_maxBlue);
   }
-  
+
   if (theControlEvent.isFrom(cockpitWidthRange)) {
     cockpit_minWidth = int(theControlEvent.getController().getArrayValue(0));
     cockpit_maxWidth = int(theControlEvent.getController().getArrayValue(1));
@@ -424,7 +460,7 @@ void createCockpitUIComponents() {
     .setRangeValues(COCKPIT_MIN_BAYS, COCKPIT_MAX_BAYS)
     .moveTo("cockpits")
     .setBroadcast(true);
-    
+
   cockpitRedRange = cp5.addRange("cockpit red")
     .setBroadcast(false) 
     .setPosition(10, 150)
@@ -504,13 +540,193 @@ void setCockpitRangeValues() {
     cockpit_type1 = true;
     cockpit_type2 = true;
     cockpit_type3 = true;
-    
+
     cockpitRedRange.setRangeValues(cockpit_minRed, cockpit_maxRed);
     cockpitGreenRange.setRangeValues(cockpit_minGreen, cockpit_maxGreen);
     cockpitBlueRange.setRangeValues(cockpit_minBlue, cockpit_maxBlue);
 
     float[] v = {1, 1, 1, 1, 1};
     cockpitCheckbox.setArrayValue(v);
+  }
+  catch(NullPointerException e) {
+  }
+  finally {
+  }
+}
+
+
+
+
+/*
+WINGS
+ */
+
+void handleWingsEvents(ControlEvent theControlEvent) {
+  if (theControlEvent.isFrom(wingsRedRange)) {
+    wings_minRed = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxRed = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minRed, wings_maxRed: " + wings_minRed + ", " + wings_maxRed);
+  }
+
+  if (theControlEvent.isFrom(wingsGreenRange)) {
+    wings_minGreen = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxGreen = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minGreen, cockpit_maxGreen: " + wings_minGreen + ", " + cockpit_maxGreen);
+  }
+
+  if (theControlEvent.isFrom(wingsBlueRange)) {
+    wings_minBlue = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxBlue = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minBlue, wings_maxBlue: " + wings_minBlue + ", " + wings_maxBlue);
+  }
+
+  if (theControlEvent.isFrom(wingsWidthTopRange)) {
+    wings_minWidthTop = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxWidthTop = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minWidthTop, wings_maxWidthTop: " + wings_minWidthTop + ", " + wings_maxWidthTop);
+  }  
+  
+  if (theControlEvent.isFrom(wingsWidthBottomRange)) {
+    wings_minWidthBottom = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxWidthBottom = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minWidthBottom, wings_maxWidthBottom: " + wings_minWidthBottom + ", " + wings_maxWidthBottom);
+  }  
+
+  if (theControlEvent.isFrom(wingsHeightRange)) {
+    wings_minHeight = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxHeight = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minHeight, wings_maxHeight: " + wings_minHeight + ", " + wings_maxHeight);
+  }  
+
+  if (theControlEvent.isFrom(wingsRotationRange)) {
+    wings_minRotation = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxRotation = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minRotation, wings_maxRotation: " + wings_minRotation + ", " + wings_maxRotation);
+  }  
+  
+  if (theControlEvent.isFrom(wingsShearRange)) {
+    wings_minShear = int(theControlEvent.getController().getArrayValue(0));
+    wings_maxShear = int(theControlEvent.getController().getArrayValue(1));
+    println("wings_minShear, wings_maxShear: " + wings_minShear + ", " + wings_maxShear);
+  }  
+
+
+}
+
+void createWingsUIComponents() {
+  wingsWidthTopRange = cp5.addRange("wing top")
+    // disable broadcasting since setRange and setRangeValues will trigger an event
+    .setBroadcast(false) 
+    .setPosition(10, 30)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(WINGS_MIN_WIDTH, WINGS_MAX_WIDTH)
+    .setRangeValues(WINGS_MIN_WIDTH, WINGS_MAX_WIDTH)
+    .moveTo("wings")
+    .setBroadcast(true);
+    
+  wingsWidthBottomRange = cp5.addRange("wing base")
+    // disable broadcasting since setRange and setRangeValues will trigger an event
+    .setBroadcast(false) 
+    .setPosition(10, 70)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(WINGS_MIN_WIDTH, WINGS_MAX_WIDTH)
+    .setRangeValues(WINGS_MIN_WIDTH, WINGS_MAX_WIDTH)
+    .moveTo("wings")
+    .setBroadcast(true);
+
+  wingsHeightRange = cp5.addRange("wing height")
+    .setBroadcast(false) 
+    .setPosition(10, 110)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(WINGS_MIN_HEIGHT, WINGS_MAX_HEIGHT)
+    .setRangeValues(WINGS_MIN_HEIGHT, WINGS_MAX_HEIGHT)
+    .moveTo("wings")
+    .setBroadcast(true);
+    
+  wingsRotationRange = cp5.addRange("wing rotation")
+    .setBroadcast(false) 
+    .setPosition(10, 150)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(ROTATION_MIN, ROTATION_MAX)
+    .setRangeValues(ROTATION_MIN, ROTATION_MIN)
+    .moveTo("wings")
+    .setBroadcast(true);
+
+  wingsShearRange = cp5.addRange("wing shear")
+    .setBroadcast(false) 
+    .setPosition(10, 190)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(SHEAR_MIN, SHEAR_MAX)
+    .setRangeValues(SHEAR_MIN, SHEAR_MIN)
+    .moveTo("wings")
+    .setBroadcast(true);
+    
+  // colors
+  wingsRedRange = cp5.addRange("wing red")
+    .setBroadcast(false) 
+    .setPosition(10, 230)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("wings")
+    .setBroadcast(true);
+
+  wingsGreenRange = cp5.addRange("wing green")
+    .setBroadcast(false) 
+    .setPosition(10, 270)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("wings")
+    .setBroadcast(true);
+
+  wingsBlueRange = cp5.addRange("wing blue")
+    .setBroadcast(false) 
+    .setPosition(10, 310)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("wings")
+    .setBroadcast(true);
+}
+
+void setWingsRangeValues() {
+  wings_minWidthTop = WINGS_MIN_WIDTH;
+  wings_maxWidthTop = WINGS_MAX_WIDTH;
+  wings_minWidthBottom = WINGS_MIN_WIDTH;
+  wings_maxWidthBottom = WINGS_MAX_WIDTH;
+  wings_minHeight = WINGS_MIN_HEIGHT;
+  wings_maxHeight = WINGS_MAX_HEIGHT;
+  wings_minRotation = ROTATION_MIN;
+  wings_maxRotation = ROTATION_MIN;
+  wings_minShear = SHEAR_MIN;
+  wings_maxShear = SHEAR_MIN;
+
+  wings_minRed = MIN_COLOR;
+  wings_maxRed = MAX_COLOR;
+  wings_minGreen = MIN_COLOR;
+  wings_maxGreen = MAX_COLOR;
+  wings_minBlue = MIN_COLOR;
+  wings_maxBlue = MAX_COLOR;
+
+  try {
+    wingsWidthTopRange.setRangeValues(wings_minWidthTop, wings_maxWidthTop);
+    wingsWidthBottomRange.setRangeValues(wings_minWidthBottom, wings_maxWidthBottom);
+    wingsHeightRange.setRangeValues(wings_minHeight, wings_maxHeight);
+    wingsShearRange.setRangeValues(wings_minShear, wings_maxShear);
+    wingsRotationRange.setRangeValues(wings_minRotation, wings_maxRotation);
+
+    wingsRedRange.setRangeValues(wings_minRed, wings_maxRed);
+    wingsGreenRange.setRangeValues(wings_minGreen, wings_maxGreen);
+    wingsBlueRange.setRangeValues(wings_minBlue, wings_maxBlue);
   }
   catch(NullPointerException e) {
   }

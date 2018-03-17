@@ -29,12 +29,6 @@ class Sector {
   }
 }
 
-class WingSector extends Sector {
-  WingSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-  }
-}
-
 class SegmentSector extends Sector {
   SegmentSector(int _x, int _y, PVector _corner, int _w, int _h) {
     super(_x, _y, _corner, _w, _h);
