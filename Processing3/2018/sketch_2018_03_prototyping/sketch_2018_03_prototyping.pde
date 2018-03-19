@@ -95,9 +95,50 @@ float wings_minRotation, wings_maxRotation;
 /*
 END WINGS
  */
+ 
+ /*
+SEGMENTS
+ */
+ 
+static int SEGMENTS_MIN_WIDTH = 20;
+static int SEGMENTS_MAX_WIDTH = 150;
+static int SEGMENTS_MIN_HEIGHT = 150;
+static int SEGMENTS_MAX_HEIGHT = 300;
+static int SEGMENTS_MIN_CORNER_RADIUS = 0;
+static int SEGMENTS_MAX_CORNER_RADIUS = 30;
+static int SEGMENTS_MIN_SIDE = 0;
+static int SEGMENTS_MAX_SIDE = 4;
+
+Range segmentsRedRange, segmentsGreenRange, segmentsBlueRange;
+int segments_minRed, segments_maxRed;
+int segments_minGreen, segments_maxGreen;
+int segments_minBlue, segments_maxBlue;
+
+Range segmentsWidthRange, segmentsHeightRange;
+int segments_minWidth, segments_maxWidth;
+int segments_minHeight, segments_maxHeight;
+
+Range segmentsCornerTopRange, segmentsCornerBottomRange;
+int segments_minCornerTop, segments_maxCornerTop;
+int segments_minCornerBottom, segments_maxCornerBottom;
+
+Range segmentsStripeRedRange, segmentsStripeGreenRange, segmentsStripeBlueRange, segmentsStripeSideRange;
+int segments_minStripeRed, segments_maxStripeRed;
+int segments_minStripeGreen, segments_maxStripeGreen;
+int segments_minStripeBlue, segments_maxStripeBlue;
+int segments_minStripeSide, segments_maxStripeSide;
+/*
+END SEGMENTS
+ */
+ 
+ 
+ 
+ 
+ 
+ 
 
 ControlP5 cp5;
-Grid activeGrid, flairGrid, cockpitGrid, wingsGrid;
+Grid activeGrid, flairGrid, cockpitGrid, wingsGrid, segmentsGrid;
 
 void setup() {
   size(1280, 720); 
@@ -105,17 +146,18 @@ void setup() {
   setFlairRangeValues();
   setCockpitRangeValues();
   setWingsRangeValues();
+  setSegmentsRangeValues();
 
   // Set up the Grids
   flairGrid = new Grid(5, 3, "flair");
   activeGrid = flairGrid;
   cockpitGrid = new Grid(3, 2, "cockpit");
   wingsGrid = new Grid(3, 1, "wings");
+  segmentsGrid = new Grid(4, 4, "segments");
 
   setupControls();
   background(255);
 }
-
 
 void draw() {
   background(255);
@@ -143,6 +185,8 @@ void switchTabs(ControlEvent theControlEvent) {
     activeGrid = cockpitGrid;
   } else if (tabName == "wings") {
     activeGrid = wingsGrid;
+  } else if (tabName == "segments") {
+    activeGrid = segmentsGrid;
   }
 }
 
@@ -162,6 +206,9 @@ void controlEvent(ControlEvent theControlEvent) {
   } else if
     (activeTab == "wings") {
     handleWingsEvents(theControlEvent);
+  } else if
+    (activeTab == "segments") {
+    handleSegmentsEvents(theControlEvent);
   }
 }
 
@@ -200,6 +247,7 @@ void setupControls() {
   createFlairUIComponents();
   createCockpitUIComponents();
   createWingsUIComponents();
+  createSegmentsUIComponents();
 }
 
 // Functions called by controlp5 buttons
@@ -211,6 +259,7 @@ public void reset(int theValue) {
   if (activeGrid.sectorType == "flair") setFlairRangeValues();
   if (activeGrid.sectorType == "cockpit") setCockpitRangeValues();
   if (activeGrid.sectorType == "wings") setWingsRangeValues();
+  if (activeGrid.sectorType == "segments") setSegmentsRangeValues();
   activeGrid.rebuild();
 }
 
@@ -727,6 +776,254 @@ void setWingsRangeValues() {
     wingsRedRange.setRangeValues(wings_minRed, wings_maxRed);
     wingsGreenRange.setRangeValues(wings_minGreen, wings_maxGreen);
     wingsBlueRange.setRangeValues(wings_minBlue, wings_maxBlue);
+  }
+  catch(NullPointerException e) {
+  }
+  finally {
+  }
+}
+
+
+
+
+
+
+
+
+/*
+SEGMENTS
+ */
+
+void handleSegmentsEvents(ControlEvent theControlEvent) {
+  if (theControlEvent.isFrom(segmentsRedRange)) {
+    segments_minRed = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxRed = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minRed, segments_maxRed: " + segments_minRed + ", " + segments_maxRed);
+  }
+
+  if (theControlEvent.isFrom(segmentsGreenRange)) {
+    segments_minGreen = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxGreen = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minGreen, segments_maxGreen: " + segments_minGreen + ", " + segments_maxGreen);
+  }
+
+  if (theControlEvent.isFrom(segmentsBlueRange)) {
+    segments_minBlue = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxBlue = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minBlue, segments_maxBlue: " + segments_minBlue + ", " + segments_maxBlue);
+  }
+
+  if (theControlEvent.isFrom(segmentsCornerBottomRange)) {
+    segments_minCornerBottom = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxCornerBottom = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minCornerBottom, segments_maxCornerBottom: " + segments_minCornerBottom + ", " + segments_maxCornerBottom);
+  }  
+  
+  if (theControlEvent.isFrom(segmentsCornerTopRange)) {
+    segments_minCornerTop = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxCornerTop = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minCornerTop, segments_maxCornerTop: " + segments_minCornerTop + ", " + segments_maxCornerTop);
+  }  
+  
+  if (theControlEvent.isFrom(segmentsWidthRange)) {
+    segments_minHeight = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxHeight = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minHeight, segments_maxHeight: " + segments_minHeight + ", " + segments_maxHeight);
+  }  
+
+  if (theControlEvent.isFrom(segmentsHeightRange)) {
+    segments_minHeight = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxHeight = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minHeight, segments_maxHeight: " + segments_minHeight + ", " + segments_maxHeight);
+  }  
+
+
+
+  // Segment Stripes
+  if (theControlEvent.isFrom(segmentsStripeRedRange)) {
+    segments_minStripeRed = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxStripeRed = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minStripeRed, segments_maxStripeRed: " + segments_minStripeRed + ", " + segments_maxStripeRed);
+  }
+
+  if (theControlEvent.isFrom(segmentsStripeGreenRange)) {
+    segments_minStripeGreen = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxStripeGreen = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minStripeGreen, segments_maxStripeGreen: " + segments_minStripeGreen + ", " + segments_maxStripeGreen);
+  }
+
+  if (theControlEvent.isFrom(segmentsStripeBlueRange)) {
+    segments_minStripeBlue = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxStripeBlue = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minStripeBlue, segments_maxStripeBlue: " + segments_minStripeBlue + ", " + segments_maxStripeBlue);
+  }
+  
+  if (theControlEvent.isFrom(segmentsStripeSideRange)) {
+    segments_minStripeSide = int(theControlEvent.getController().getArrayValue(0));
+    segments_maxStripeSide = int(theControlEvent.getController().getArrayValue(1));
+    println("segments_minStripeSide, segments_maxStripeSide: " + segments_minStripeSide + ", " + segments_maxStripeSide);
+  }
+
+}
+
+// TODO: Set positions of controls and create constants
+void createSegmentsUIComponents() {
+  segmentsCornerBottomRange = cp5.addRange("top corners")
+    // disable broadcasting since setRange and setRangeValues will trigger an event
+    .setBroadcast(false) 
+    .setPosition(10, 30)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(SEGMENTS_MIN_CORNER_RADIUS, SEGMENTS_MAX_CORNER_RADIUS) // CHANGE?
+    .setRangeValues(SEGMENTS_MIN_CORNER_RADIUS, SEGMENTS_MAX_CORNER_RADIUS)
+    .moveTo("segments")
+    .setBroadcast(true);
+    
+  segmentsCornerTopRange = cp5.addRange("bot. corners")
+    // disable broadcasting since setRange and setRangeValues will trigger an event
+    .setBroadcast(false) 
+    .setPosition(10, 70)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(SEGMENTS_MIN_CORNER_RADIUS, SEGMENTS_MAX_CORNER_RADIUS)
+    .setRangeValues(SEGMENTS_MIN_CORNER_RADIUS, SEGMENTS_MAX_CORNER_RADIUS)
+    .moveTo("segments")
+    .setBroadcast(true);
+
+  segmentsHeightRange = cp5.addRange("seg. height")
+    .setBroadcast(false) 
+    .setPosition(10, 110)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(SEGMENTS_MIN_HEIGHT, SEGMENTS_MAX_HEIGHT)
+    .setRangeValues(SEGMENTS_MIN_HEIGHT, SEGMENTS_MAX_HEIGHT)
+    .moveTo("segments")
+    .setBroadcast(true);
+    
+   segmentsWidthRange = cp5.addRange("seg. width")
+    .setBroadcast(false) 
+    .setPosition(10, 150)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(SEGMENTS_MIN_WIDTH, SEGMENTS_MAX_WIDTH)
+    .setRangeValues(SEGMENTS_MIN_WIDTH, SEGMENTS_MAX_WIDTH)
+    .moveTo("segments")
+    .setBroadcast(true);
+    
+  // colors
+  segmentsRedRange = cp5.addRange("seg. red")
+    .setBroadcast(false) 
+    .setPosition(10, 230)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("segments")
+    .setBroadcast(true);
+
+  segmentsGreenRange = cp5.addRange("seg. green")
+    .setBroadcast(false) 
+    .setPosition(10, 270)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("segments")
+    .setBroadcast(true);
+
+  segmentsBlueRange = cp5.addRange("seg. blue")
+    .setBroadcast(false) 
+    .setPosition(10, 310)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("segments")
+    .setBroadcast(true);
+    
+    
+    // Stripe Colors
+  segmentsStripeRedRange = cp5.addRange("stripe red")
+    .setBroadcast(false) 
+    .setPosition(10, 390)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("segments")
+    .setBroadcast(true);
+
+  segmentsStripeGreenRange = cp5.addRange("stripe green")
+    .setBroadcast(false) 
+    .setPosition(10, 430)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("segments")
+    .setBroadcast(true);
+
+  segmentsStripeBlueRange = cp5.addRange("stripe blue")
+    .setBroadcast(false) 
+    .setPosition(10, 470)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(MIN_COLOR, MAX_COLOR)
+    .setRangeValues(MIN_COLOR, MAX_COLOR)
+    .moveTo("segments")
+    .setBroadcast(true);
+    
+  segmentsStripeSideRange = cp5.addRange("stripe side")
+    .setBroadcast(false) 
+    .setPosition(10, 510)
+    .setSize(180, 30)
+    .setHandleSize(20)
+    .setRange(SEGMENTS_MIN_SIDE, SEGMENTS_MAX_SIDE)
+    .setRangeValues(SEGMENTS_MIN_SIDE, SEGMENTS_MAX_SIDE)
+    .moveTo("segments")
+    .setBroadcast(true);
+}
+
+void setSegmentsRangeValues() {
+  segments_minWidth = SEGMENTS_MIN_WIDTH;
+  segments_maxWidth = SEGMENTS_MAX_WIDTH;
+  segments_minHeight = WINGS_MIN_HEIGHT;
+  segments_maxHeight = WINGS_MAX_HEIGHT;
+  
+  segments_minCornerBottom = WINGS_MIN_WIDTH;
+  segments_maxCornerBottom = WINGS_MAX_WIDTH;
+
+  segments_minRed = MIN_COLOR;
+  segments_maxRed = MAX_COLOR;
+  segments_minGreen = MIN_COLOR;
+  segments_maxGreen = MAX_COLOR;
+  segments_minBlue = MIN_COLOR;
+  segments_maxBlue = MAX_COLOR;
+  
+  segments_minStripeRed = MIN_COLOR;
+  segments_maxStripeRed = MAX_COLOR;
+  segments_minStripeGreen = MIN_COLOR;
+  segments_maxStripeGreen = MAX_COLOR;
+  segments_minStripeBlue = MIN_COLOR;
+  segments_maxStripeBlue = MAX_COLOR;
+  
+  segments_minStripeSide = SEGMENTS_MIN_SIDE;
+  segments_maxStripeSide = SEGMENTS_MAX_SIDE;
+
+  try {
+    segmentsWidthRange.setRangeValues(segments_minWidth, segments_maxWidth);
+    segmentsHeightRange.setRangeValues(segments_minHeight, segments_maxHeight);
+    
+    segmentsCornerTopRange.setRangeValues(segments_minCornerTop, segments_maxCornerTop);
+    segmentsCornerBottomRange.setRangeValues(segments_minCornerBottom, segments_maxCornerBottom);
+
+    segmentsRedRange.setRangeValues(segments_minRed, segments_maxRed);
+    segmentsGreenRange.setRangeValues(segments_minGreen, segments_maxGreen);
+    segmentsBlueRange.setRangeValues(segments_minBlue, segments_maxBlue);
+    
+    segmentsStripeRedRange.setRangeValues(segments_minStripeRed, segments_maxStripeRed);
+    segmentsStripeGreenRange.setRangeValues(segments_minStripeGreen, segments_maxStripeGreen);
+    segmentsStripeBlueRange.setRangeValues(segments_minStripeBlue, segments_maxStripeBlue);
   }
   catch(NullPointerException e) {
   }

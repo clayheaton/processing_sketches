@@ -47,6 +47,8 @@ class Grid {
           s = new CockpitSector(x, y, secCorner, sectorW, sectorH);
         } else if (this.sectorType == "wings") {
           s = new WingSector(x, y, secCorner, sectorW, sectorH);
+        } else if (this.sectorType == "segments") {
+          s = new SegmentSector(x, y, secCorner, sectorW, sectorH);
         }
         
         if (null != s){
