@@ -148,10 +148,10 @@ int tails_minHeight, tails_maxHeight;
 
 Range tailsEnginesRange;
 int tails_minEngines, tails_maxEngines;
-
 /*
 END TAILS
  */
+
 
 
 /*
@@ -238,6 +238,8 @@ void drawUIPanel() {
   fill(128);
   rect(0, 0, UI_PANEL_WIDTH, height);
 }
+
+
 
 /*
 CONTROLS

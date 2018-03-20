@@ -55,36 +55,15 @@ class ArmadaGrid extends Grid {
   }
 
   void createUIComponents() {
-    armadasScaleRange = cp5.addRange("scale")
-      .setBroadcast(false) 
-      .setPosition(10, 30)
-      .setSize(180, 30)
-      .setHandleSize(20)
-      .setRange(ARMADAS_MIN_SCALE, ARMADAS_MAX_SCALE)
-      .setRangeValues(0.9, 1.1)
-      .moveTo("armadas")
-      .setBroadcast(true);
+
   }
 
   void setRangeValues() {
-    armadas_minScale = ARMADAS_MIN_SCALE;
-    armadas_maxScale = ARMADAS_MAX_SCALE;
 
-    try {
-      armadasScaleRange.setRangeValues(armadas_minScale, armadas_maxScale);
-    }
-    catch(NullPointerException e) {
-    }
-    finally {
-    }
   }
 
   void handleEvents(ControlEvent theControlEvent) {
-    if (theControlEvent.isFrom(armadasScaleRange)) {
-      armadas_minScale = theControlEvent.getController().getArrayValue(0);
-      armadas_maxScale = theControlEvent.getController().getArrayValue(1);
-      println("armadas_minScale, armadas_maxScale: " + armadas_minScale + ", " + armadas_maxScale);
-    }
+
   }
 
   void makeSectors() {

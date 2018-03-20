@@ -84,7 +84,7 @@ class Ship {
     }
 
     shipLength = this.backboneWidth + this.cockpit.w + this.tail.w + this.tail.engineWidth;
-    shipHeight = max(this.cockpit.h/2, max(this.segment.h/2, this.tail.h/2)) + this.tail.h;
+    shipHeight = max(this.cockpit.h/2, max(this.segment.h/2, this.tail.h/2)) + this.tail.h*2;
   }
 
   void display() {
