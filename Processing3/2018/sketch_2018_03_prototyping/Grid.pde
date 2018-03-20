@@ -30,31 +30,21 @@ class Grid {
       }
     }
   }
-
-  void makeSectors() {
-    int sectorW = (int)(width - UI_PANEL_WIDTH - (GRID_OUTER_MARGIN * 2) - (GRID_INNER_MARGIN * (this.sectorsAcross - 1))) / this.sectorsAcross;
-    int sectorH = (int)(height - (GRID_OUTER_MARGIN * 2) - (GRID_INNER_MARGIN * (this.sectorsDown - 1))) / sectorsDown;
-
-    for (int y = 0; y < sectorsDown; y++) {
-      for (int x = 0; x < sectorsAcross; x++) {
-        PVector secCorner = new PVector(x*sectorW + GRID_OUTER_MARGIN + (x * GRID_INNER_MARGIN) + UI_PANEL_WIDTH, 
-          y*sectorH + GRID_OUTER_MARGIN + (y * GRID_INNER_MARGIN));
-        // TODO: Catch other kinds of grids
-        Sector s = null;
-        if (this.sectorType == "flair") {
-          s = new FlairSector(x, y, secCorner, sectorW, sectorH);
-        } else if (this.sectorType == "cockpit") {
-          s = new CockpitSector(x, y, secCorner, sectorW, sectorH);
-        } else if (this.sectorType == "wings") {
-          s = new WingSector(x, y, secCorner, sectorW, sectorH);
-        } else if (this.sectorType == "segments") {
-          s = new SegmentSector(x, y, secCorner, sectorW, sectorH);
-        }
-        
-        if (null != s){
-          sectors[x][y] = s;
-        }
-      }
-    }
+  
+  void createUIComponents(){
+    print("implement createUIComponents() in subclass");
   }
+  
+  void setRangeValues(){
+    print("implement setRangeValues() in subclass");
+  }
+  
+  void handleEvents(ControlEvent theControlEvent){
+    print("implement handleEvents in subclass");
+  }
+  
+  void makeSectors(){
+    print("implement makeSectors in subclass");
+  }
+
 }

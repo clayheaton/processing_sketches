@@ -28,21 +28,3 @@ class Sector {
     rect(this.corner.x, this.corner.y, this.w, this.h);
   }
 }
-
-class TailSector extends Sector {
-  TailSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-  }
-}
-
-class ShipSector extends Sector {
-  ShipSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-  }
-}
-
-class ArmadaSector extends Sector {
-  ArmadaSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-  }
-}
