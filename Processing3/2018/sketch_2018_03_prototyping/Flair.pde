@@ -1,6 +1,63 @@
-/*
-  Knows how to draw Flair components.
- */
+class Flair {
+  int w, h, r, g, b;
+  float shear, rot;
+  PVector upperLeft, upperRight, lowerRight, lowerLeft;
+
+  Flair() {
+    this.w = (int)random(flair_minWidth, flair_maxWidth);
+    this.h = (int)random(flair_minHeight, flair_maxHeight);
+    this.r = (int)random(flair_minRed, flair_maxRed);
+    this.g = (int)random(flair_minGreen, flair_maxGreen);
+    this.b = (int)random(flair_minBlue, flair_maxBlue);
+    this.rot = random(flair_minRotation, flair_maxRotation);
+    this.shear = random(flair_minShear, flair_maxShear);
+
+    float offset = this.shear * this.w / 2;
+
+    upperLeft = new PVector(0 - this.w/2 + offset, 0 - this.h/2);
+    upperRight = new PVector(this.w/2 + offset, 0 - this.h/2);
+    lowerRight = new PVector(this.w/2, this.h/2);
+    lowerLeft = new PVector(0 - this.w/2, this.h/2);
+  }
+
+  void display() {
+    fill(this.r, this.g, this.b);
+    noStroke();
+    pushMatrix();
+    rotate(this.rot);
+    beginShape();
+    vertex(upperLeft.x, upperLeft.y);
+    vertex(upperRight.x, upperRight.y);
+    vertex(lowerRight.x, lowerRight.y);
+    vertex(lowerLeft.x, lowerLeft.y);
+    endShape(CLOSE);
+    popMatrix();
+  }
+}
+
+
+class FlairSector extends Sector {
+  Flair flair;
+  FlairSector(int _x, int _y, PVector _corner, int _w, int _h) {
+    super(_x, _y, _corner, _w, _h);
+    rebuild();
+  }
+
+  void rebuild() {
+    flair = new Flair();
+  }
+
+  void display() {
+    if (debug) {
+      debugDisplay();
+    }
+
+    pushMatrix();
+    translate(this.center.x, this.center.y);
+    this.flair.display();
+    popMatrix();
+  }
+}
 
 class FlairGrid extends Grid {
   FlairGrid(int _nx, int _ny, String _sectorType) {
@@ -173,65 +230,5 @@ class FlairGrid extends Grid {
         }
       }
     }
-  }
-}
-
-class FlairSector extends Sector {
-  Flair flair;
-  FlairSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-    rebuild();
-  }
-
-  void rebuild() {
-    flair = new Flair();
-  }
-
-  void display() {
-    if (debug) {
-      debugDisplay();
-    }
-
-    pushMatrix();
-    translate(this.center.x, this.center.y);
-    this.flair.display();
-    popMatrix();
-  }
-}
-
-class Flair {
-  int w, h, r, g, b;
-  float shear, rot;
-  PVector upperLeft, upperRight, lowerRight, lowerLeft;
-
-  Flair() {
-    this.w = (int)random(flair_minWidth, flair_maxWidth);
-    this.h = (int)random(flair_minHeight, flair_maxHeight);
-    this.r = (int)random(flair_minRed, flair_maxRed);
-    this.g = (int)random(flair_minGreen, flair_maxGreen);
-    this.b = (int)random(flair_minBlue, flair_maxBlue);
-    this.rot = random(flair_minRotation, flair_maxRotation);
-    this.shear = random(flair_minShear, flair_maxShear);
-
-    float offset = this.shear * this.w / 2;
-
-    upperLeft = new PVector(0 - this.w/2 + offset, 0 - this.h/2);
-    upperRight = new PVector(this.w/2 + offset, 0 - this.h/2);
-    lowerRight = new PVector(this.w/2, this.h/2);
-    lowerLeft = new PVector(0 - this.w/2, this.h/2);
-  }
-
-  void display() {
-    fill(this.r, this.g, this.b);
-    noStroke();
-    pushMatrix();
-    rotate(this.rot);
-    beginShape();
-    vertex(upperLeft.x, upperLeft.y);
-    vertex(upperRight.x, upperRight.y);
-    vertex(lowerRight.x, lowerRight.y);
-    vertex(lowerLeft.x, lowerLeft.y);
-    endShape(CLOSE);
-    popMatrix();
   }
 }

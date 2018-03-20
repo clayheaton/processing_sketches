@@ -132,8 +132,8 @@ TAILS
  */
 static int TAILS_MIN_WIDTH = 20;
 static int TAILS_MAX_WIDTH = 150;
-static int TAILS_MIN_HEIGHT = 150;
-static int TAILS_MAX_HEIGHT = 300;
+static int TAILS_MIN_HEIGHT = 100;
+static int TAILS_MAX_HEIGHT = 200;
 static int TAILS_MIN_ENGINES = 1;
 static int TAILS_MAX_ENGINES = 4;
 

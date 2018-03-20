@@ -1,3 +1,92 @@
+class Tail {
+  int w, h, r, g, b, engines;
+  color mainColor, mainColorStroke;
+  Tail() {
+    this.w = (int)random(tails_minWidth, tails_maxWidth);
+    this.h = (int)random(tails_minHeight, tails_maxHeight);
+    this.r = (int)random(tails_minRed, tails_maxRed);
+    this.g = (int)random(tails_minGreen, tails_maxGreen);
+    this.b = (int)random(tails_minBlue, tails_maxBlue);
+    this.engines = (int)random(tails_minEngines, tails_maxEngines + 0.99);
+    
+    this.mainColor = color(this.r, this.g, this.b);
+    color b = color(0);
+    this.mainColorStroke = lerpColor(this.mainColor, b, 0.33);
+  }
+
+  void display() {
+    // Engine triangles are dark grey
+    fill(80);
+    stroke(110);
+    
+    float engineHeight = this.h/max(this.engines,2);
+    float engineWidth = max(this.w/3,75);
+    
+    float x1, y1, x2, y2, x3, y3, yCenter;
+    
+    // TODO: Fix this logic
+    if (this.engines == 1) {
+      yCenter = 0;
+      x1 = this.w/2 - 20;
+      y1 = yCenter;
+      x2 = x1 + engineWidth;
+      y2 = yCenter - engineHeight/2;
+      x3 = x2;
+      y3 = yCenter + engineHeight/2;
+      triangle(x1,y1,x2,y2,x3,y3);
+    } else {
+      for (int i = 0; i < this.engines; i++) {
+         yCenter = (this.engines * engineHeight*0.7) - engineHeight - (i * engineHeight*1.1); 
+         x1 = this.w/2 - 20;
+         y1 = yCenter;
+         x2 = x1 + engineWidth;
+         y2 = yCenter - engineHeight/2;
+         x3 = x2;
+         y3 = yCenter + engineHeight/2;
+         triangle(x1,y1,x2,y2,x3,y3);
+      }
+    }
+    
+    fill(mainColor);
+    stroke(mainColorStroke);
+    
+    beginShape();
+    vertex(-this.w/2,-this.h/2 * 0.8);
+    vertex(this.w/2, -this.h/2);
+    vertex(this.w/2, this.h/2);
+    vertex(-this.w/2, this.h/2 * 0.8);
+    endShape(CLOSE);
+  }
+}
+
+
+
+
+class TailSector extends Sector {
+  Tail tail;
+  TailSector(int _x, int _y, PVector _corner, int _w, int _h) {
+    super(_x, _y, _corner, _w, _h);
+    rebuild();
+  }
+  void rebuild() {
+    tail = new Tail();
+  }
+
+  void display() {
+    if (debug) {
+      debugDisplay();
+    }
+
+    pushMatrix();
+    translate(this.center.x, this.center.y);
+    this.tail.display();
+    popMatrix();
+  }
+}
+
+
+
+
 class TailGrid extends Grid {
   TailGrid(int _nx, int _ny, String _sectorType) {
     super(_nx, _ny, _sectorType);
@@ -146,38 +235,5 @@ class TailGrid extends Grid {
         }
       }
     }
-  }
-}
-
-class TailSector extends Sector {
-  Tail tail;
-  TailSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-    rebuild();
-  }
-  void rebuild() {
-    tail = new Tail();
-  }
-
-  void display() {
-    if (debug) {
-      debugDisplay();
-    }
-
-    pushMatrix();
-    translate(this.center.x, this.center.y);
-    this.tail.display();
-    popMatrix();
-  }
-}
-
-
-class Tail {
-  Tail() {
-  }
-
-  void display() {
-    fill(0, 120, 0);
-    rect(-50, -50, 100, 100);
   }
 }

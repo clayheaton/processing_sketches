@@ -1,3 +1,43 @@
+class Armada {
+  Armada() {
+  }
+
+  void display() {
+    fill(0, 0, 120);
+    rect(-50, -50, 100, 100);
+  }
+}
+
+
+
+
+
+
+class ArmadaSector extends Sector {
+  Armada armada;
+  ArmadaSector(int _x, int _y, PVector _corner, int _w, int _h) {
+    super(_x, _y, _corner, _w, _h);
+    rebuild();
+  }
+  void rebuild() {
+    armada = new Armada();
+  }
+
+  void display() {
+    if (debug) {
+      debugDisplay();
+    }
+
+    pushMatrix();
+    translate(this.center.x, this.center.y);
+    this.armada.display();
+    popMatrix();
+  }
+}
+
+
+
+
 class ArmadaGrid extends Grid {
   ArmadaGrid(int _nx, int _ny, String _sectorType) {
     super(_nx, _ny, _sectorType);
@@ -51,39 +91,5 @@ class ArmadaGrid extends Grid {
         }
       }
     }
-  }
-}
-
-
-class ArmadaSector extends Sector {
-  Armada armada;
-  ArmadaSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-    rebuild();
-  }
-  void rebuild() {
-    armada = new Armada();
-  }
-
-  void display() {
-    if (debug) {
-      debugDisplay();
-    }
-
-    pushMatrix();
-    translate(this.center.x, this.center.y);
-    this.armada.display();
-    popMatrix();
-  }
-}
-
-
-class Armada {
-  Armada() {
-  }
-
-  void display() {
-    fill(0, 0, 120);
-    rect(-50, -50, 100, 100);
   }
 }

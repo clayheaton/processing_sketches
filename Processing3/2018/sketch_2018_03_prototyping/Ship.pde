@@ -1,3 +1,38 @@
+class Ship {
+  Ship() {
+  }
+
+  void display() {
+    fill(120, 0, 0);
+    rect(-50, -50, 100, 100);
+  }
+}
+
+
+
+class ShipSector extends Sector {
+  Ship ship;
+  ShipSector(int _x, int _y, PVector _corner, int _w, int _h) {
+    super(_x, _y, _corner, _w, _h);
+    rebuild();
+  }
+  void rebuild() {
+    ship = new Ship();
+  }
+
+  void display() {
+    if (debug) {
+      debugDisplay();
+    }
+
+    pushMatrix();
+    translate(this.center.x, this.center.y);
+    this.ship.display();
+    popMatrix();
+  }
+}
+
+
 class ShipGrid extends Grid {
   ShipGrid(int _nx, int _ny, String _sectorType) {
     super(_nx, _ny, _sectorType);
@@ -96,38 +131,5 @@ class ShipGrid extends Grid {
         }
       }
     }
-  }
-}
-
-class ShipSector extends Sector {
-  Ship ship;
-  ShipSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-    rebuild();
-  }
-  void rebuild() {
-    ship = new Ship();
-  }
-
-  void display() {
-    if (debug) {
-      debugDisplay();
-    }
-
-    pushMatrix();
-    translate(this.center.x, this.center.y);
-    this.ship.display();
-    popMatrix();
-  }
-}
-
-
-class Ship {
-  Ship() {
-  }
-
-  void display() {
-    fill(120, 0, 0);
-    rect(-50, -50, 100, 100);
   }
 }
