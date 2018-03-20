@@ -96,12 +96,12 @@ END WINGS
 /*
 SEGMENTS
  */
-static int SEGMENTS_MIN_WIDTH = 20;
-static int SEGMENTS_MAX_WIDTH = 150;
+static int SEGMENTS_MIN_WIDTH = 50;
+static int SEGMENTS_MAX_WIDTH = 200;
 static int SEGMENTS_MIN_HEIGHT = 150;
-static int SEGMENTS_MAX_HEIGHT = 300;
+static int SEGMENTS_MAX_HEIGHT = 250;
 static int SEGMENTS_MIN_CORNER_RADIUS = 0;
-static int SEGMENTS_MAX_CORNER_RADIUS = 30;
+static int SEGMENTS_MAX_CORNER_RADIUS = 100;
 static int SEGMENTS_MIN_SIDE = 0;
 static int SEGMENTS_MAX_SIDE = 4;
 
@@ -204,7 +204,7 @@ void setup() {
 
   cockpitGrid = new CockpitGrid(3, 2, "cockpit");
   wingsGrid = new WingGrid(3, 1, "wings");
-  segmentsGrid = new SegmentGrid(4, 4, "segments");
+  segmentsGrid = new SegmentGrid(4, 2, "segments");
   tailsGrid = new TailGrid(3, 2, "tails");
   shipsGrid = new ShipGrid(1, 1, "ships");
   armadasGrid = new ArmadaGrid(4, 4, "armadas");

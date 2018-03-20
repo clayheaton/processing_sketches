@@ -1,10 +1,107 @@
+class Segment {
+  int cornerTop, cornerBottom, stripeSide, w, h, r, g, b, sr, sg, sb;
+  color mainColor, stripeColor, mainColorStroke;
+  Segment() {
+    this.w = (int)random(segments_minWidth, segments_maxWidth);
+    this.h = (int)random(segments_minHeight, segments_maxHeight);
+    this.r = (int)random(segments_minRed, segments_maxRed);
+    this.g = (int)random(segments_minGreen, segments_maxGreen);
+    this.b = (int)random(segments_minBlue, segments_maxBlue);
+    this.sr = (int)random(segments_minStripeRed, segments_maxStripeRed);
+    this.sg = (int)random(segments_minStripeGreen, segments_maxStripeGreen);
+    this.sb = (int)random(segments_minStripeBlue, segments_maxStripeBlue);
+    this.cornerTop = (int)random(segments_minCornerTop, segments_maxCornerTop);
+    this.cornerBottom = (int)random(segments_minCornerBottom, segments_maxCornerBottom);
+    this.stripeSide = (int)random(segments_minStripeSide, segments_maxStripeSide + 0.99);
+    
+    mainColor = color(r,g,b);
+    stripeColor = color(sr,sg,sb);
+    color b = color(0);
+    mainColorStroke = lerpColor(mainColor, b, 0.33);
+  }
+
+  void display() {
+
+    fill(mainColor);
+    stroke(mainColorStroke);
+    
+    rect(-this.w/2, -this.h/2, this.w, this.h, this.cornerTop, this.cornerTop, this.cornerBottom, this.cornerBottom);
+    
+    fill(stripeColor);
+    stroke(0);
+    strokeWeight(1);
+    if (this.stripeSide == 1) {
+      // Left
+      float nh = this.h * 0.66;
+      float nw = this.w * 0.3;
+      float nTop = this.cornerTop * 0.5;
+      float nBot = this.cornerBottom * 0.5;
+      rect(-this.w/3, -this.h/3, nw, nh, nTop, nTop, nBot, nBot);
+      
+    } else if (this.stripeSide == 2) {
+      // Top
+      float nh = this.h * 0.3;
+      float nw = this.w * 0.66;
+      float nTop = this.cornerTop * 0.5;
+      float nBot = this.cornerBottom * 0.5;
+      rect(-this.w/3, -this.h/3, nw, nh, nTop, nTop, nBot, nBot);
+    } else if (this.stripeSide == 3) {
+      // Right
+      float nh = this.h * 0.66;
+      float nw = this.w * 0.3;
+      float nTop = this.cornerTop * 0.5;
+      float nBot = this.cornerBottom * 0.5;
+      rect(this.w/3-nw, -this.h/3, nw, nh, nTop, nTop, nBot, nBot);
+    } else if (this.stripeSide == 4) {
+      // Bottom
+      float nh = this.h * 0.3;
+      float nw = this.w * 0.66;
+      float nTop = this.cornerTop * 0.5;
+      float nBot = this.cornerBottom * 0.5;
+      rect(-this.w/3, this.h/3-nh, nw, nh, nTop, nTop, nBot, nBot);
+    } else if (this.stripeSide == 0) {
+     // don't draw a stripe 
+    }
+    
+  }
+}
+
+
+
+
+
+
+
+class SegmentSector extends Sector {
+  Segment segment;
+  SegmentSector(int _x, int _y, PVector _corner, int _w, int _h) {
+    super(_x, _y, _corner, _w, _h);
+    rebuild();
+  }
+  void rebuild() {
+    segment = new Segment();
+  }
+
+  void display() {
+    if (debug) {
+      debugDisplay();
+    }
+
+    pushMatrix();
+    translate(this.center.x, this.center.y);
+    this.segment.display();
+    popMatrix();
+  }
+}
+
+
 class SegmentGrid extends Grid {
   SegmentGrid(int _nx, int _ny, String _sectorType) {
     super(_nx, _ny, _sectorType);
     setRangeValues();
   }
   void createUIComponents() {
-    segmentsCornerBottomRange = cp5.addRange("top corners")
+    segmentsCornerBottomRange = cp5.addRange("bot. corners")
       // disable broadcasting since setRange and setRangeValues will trigger an event
       .setBroadcast(false) 
       .setPosition(10, 30)
@@ -15,7 +112,7 @@ class SegmentGrid extends Grid {
       .moveTo("segments")
       .setBroadcast(true);
 
-    segmentsCornerTopRange = cp5.addRange("bot. corners")
+    segmentsCornerTopRange = cp5.addRange("top corners")
       // disable broadcasting since setRange and setRangeValues will trigger an event
       .setBroadcast(false) 
       .setPosition(10, 70)
@@ -123,11 +220,13 @@ class SegmentGrid extends Grid {
   void setRangeValues() {
     segments_minWidth = SEGMENTS_MIN_WIDTH;
     segments_maxWidth = SEGMENTS_MAX_WIDTH;
-    segments_minHeight = WINGS_MIN_HEIGHT;
-    segments_maxHeight = WINGS_MAX_HEIGHT;
+    segments_minHeight = SEGMENTS_MIN_HEIGHT;
+    segments_maxHeight = SEGMENTS_MAX_HEIGHT;
 
-    segments_minCornerBottom = WINGS_MIN_WIDTH;
-    segments_maxCornerBottom = WINGS_MAX_WIDTH;
+    segments_minCornerBottom = SEGMENTS_MIN_WIDTH;
+    segments_maxCornerBottom = SEGMENTS_MAX_WIDTH;
+    segments_minCornerTop = SEGMENTS_MIN_WIDTH;
+    segments_maxCornerTop = SEGMENTS_MAX_WIDTH;
 
     segments_minRed = MIN_COLOR;
     segments_maxRed = MAX_COLOR;
@@ -252,38 +351,5 @@ class SegmentGrid extends Grid {
         }
       }
     }
-  }
-}
-
-class SegmentSector extends Sector {
-  Segment segment;
-  SegmentSector(int _x, int _y, PVector _corner, int _w, int _h) {
-    super(_x, _y, _corner, _w, _h);
-    rebuild();
-  }
-  void rebuild() {
-    segment = new Segment();
-  }
-
-  void display() {
-    if (debug) {
-      debugDisplay();
-    }
-
-    pushMatrix();
-    translate(this.center.x, this.center.y);
-    this.segment.display();
-    popMatrix();
-  }
-}
-
-
-class Segment {
-  Segment() {
-  }
-
-  void display() {
-    fill(120);
-    rect(-50, -50, 100, 100);
   }
 }
