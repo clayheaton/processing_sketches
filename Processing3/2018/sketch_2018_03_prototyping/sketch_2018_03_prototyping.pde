@@ -130,7 +130,7 @@ END SEGMENTS
 /*
 TAILS
  */
-static int TAILS_MIN_WIDTH = 20;
+static int TAILS_MIN_WIDTH = 40;
 static int TAILS_MAX_WIDTH = 150;
 static int TAILS_MIN_HEIGHT = 100;
 static int TAILS_MAX_HEIGHT = 200;

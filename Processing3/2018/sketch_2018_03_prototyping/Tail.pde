@@ -24,7 +24,8 @@ class Tail {
     
     float x1, y1, x2, y2, x3, y3, yCenter;
     
-    // TODO: Fix this logic
+    // TODO: Fix this logic so that the for loop handles all of it
+    // use lerp against the height
     if (this.engines == 1) {
       yCenter = 0;
       x1 = this.w/2 - 20;
