@@ -1,10 +1,20 @@
 class Armada {
-  Armada() {
+  Ship ship;
+  float sectorWidth, sectorHeight, scalefactor;
+  Armada(float _sectorWidth, float _sectorHeight) {
+    this.ship = new Ship();
+    this.sectorWidth = _sectorWidth;
+    this.sectorHeight = _sectorHeight;
+    float scalefactorW = this.sectorWidth / this.ship.shipLength;
+    float scalefactorH = this.sectorHeight / this.ship.shipHeight;
+    this.scalefactor = min(1,this.scalefactor = min(scalefactorW,scalefactorH));
   }
 
   void display() {
-    fill(0, 0, 120);
-    rect(-50, -50, 100, 100);
+    pushMatrix();
+    scale(this.scalefactor);
+    this.ship.display();
+    popMatrix();
   }
 }
 
@@ -20,7 +30,7 @@ class ArmadaSector extends Sector {
     rebuild();
   }
   void rebuild() {
-    armada = new Armada();
+    armada = new Armada(this.w, this.h);
   }
 
   void display() {

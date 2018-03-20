@@ -298,9 +298,9 @@ class SegmentGrid extends Grid {
     }  
 
     if (theControlEvent.isFrom(segmentsWidthRange)) {
-      segments_minHeight = int(theControlEvent.getController().getArrayValue(0));
-      segments_maxHeight = int(theControlEvent.getController().getArrayValue(1));
-      println("segments_minHeight, segments_maxHeight: " + segments_minHeight + ", " + segments_maxHeight);
+      segments_minWidth = int(theControlEvent.getController().getArrayValue(0));
+      segments_maxWidth = int(theControlEvent.getController().getArrayValue(1));
+      println("segments_minWidth, segments_maxWidth: " + segments_minWidth + ", " + segments_maxWidth);
     }  
 
     if (theControlEvent.isFrom(segmentsHeightRange)) {

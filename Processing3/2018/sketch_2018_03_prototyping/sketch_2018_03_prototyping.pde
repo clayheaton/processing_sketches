@@ -166,9 +166,10 @@ static int SHIPS_MAX_WINGS = 4;
 static boolean SHIPS_WINGS_TOP = true;
 static boolean SHIPS_WINGS_BOTTOM = true;
 
-Range shipsSegmentsRange, shipsAmplitudeRange;
+Range shipsSegmentsRange, shipsAmplitudeRange, shipsWingsRange;
 int ships_minSegments, ships_maxSegments;
 float ships_minAmplitude, ships_maxAmplitude;
+int ships_minWings, ships_maxWings;
 
 CheckBox shipsWingPositions;
 boolean ships_wingsTop, ships_wingsBottom;
@@ -207,7 +208,7 @@ void setup() {
   segmentsGrid = new SegmentGrid(4, 2, "segments");
   tailsGrid = new TailGrid(3, 2, "tails");
   shipsGrid = new ShipGrid(1, 1, "ships");
-  armadasGrid = new ArmadaGrid(4, 4, "armadas");
+  armadasGrid = new ArmadaGrid(4, 2, "armadas");
 
   grids.add(flairGrid);
   grids.add(cockpitGrid);

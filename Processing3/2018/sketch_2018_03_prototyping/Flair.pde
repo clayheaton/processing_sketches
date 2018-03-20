@@ -2,6 +2,7 @@ class Flair {
   int w, h, r, g, b;
   float shear, rot;
   PVector upperLeft, upperRight, lowerRight, lowerLeft;
+  color mainColor;
 
   Flair() {
     this.w = (int)random(flair_minWidth, flair_maxWidth);
@@ -11,6 +12,8 @@ class Flair {
     this.b = (int)random(flair_minBlue, flair_maxBlue);
     this.rot = random(flair_minRotation, flair_maxRotation);
     this.shear = random(flair_minShear, flair_maxShear);
+
+    this.mainColor = color(this.r, this.g, this.b);
 
     float offset = this.shear * this.w / 2;
 
@@ -25,6 +28,21 @@ class Flair {
     noStroke();
     pushMatrix();
     rotate(this.rot);
+    beginShape();
+    vertex(upperLeft.x, upperLeft.y);
+    vertex(upperRight.x, upperRight.y);
+    vertex(lowerRight.x, lowerRight.y);
+    vertex(lowerLeft.x, lowerLeft.y);
+    endShape(CLOSE);
+    popMatrix();
+  }
+  
+  // For when drawing on a wing that is on the bottom of a ship
+  void displayReverse() {
+    fill(this.r, this.g, this.b);
+    noStroke();
+    pushMatrix();
+    rotate(-this.rot);
     beginShape();
     vertex(upperLeft.x, upperLeft.y);
     vertex(upperRight.x, upperRight.y);

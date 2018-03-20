@@ -3,7 +3,9 @@ class Wing {
   float shear, rotation;
   color fill_color, outline_color;
   PVector upperLeft, upperRight, lowerRight, lowerLeft;
+  PVector iUpperLeft, iUpperRight, iLowerRight, iLowerLeft; // inverted
   PVector midBottom, midTop, midPoint, lowerThird, upperThird;
+  PVector iMidBottom, iMidTop, iMidPoint, iLowerThird, iUpperThird; // inverted
   Flair flair;
   Wing() {
     this.wTop = (int)random(wings_minWidthTop, wings_maxWidthTop);
@@ -15,16 +17,17 @@ class Wing {
     this.shear = random(wings_minShear, wings_maxShear);
     this.rotation = random(wings_minRotation, wings_maxRotation);
 
-    fill_color = color(this.r, this.g, this.b);
+    this.fill_color = color(this.r, this.g, this.b);
     color c = color(0);
-    outline_color = lerpColor(fill_color, c, 0.33);
+    this.outline_color = lerpColor(fill_color, c, 0.33);
 
     float offsetTop = this.shear * this.wTop / 2;
 
-    upperLeft = new PVector(0 - this.wTop/2 + offsetTop, 0 - this.h/2);
-    upperRight = new PVector(this.wTop/2 + offsetTop, 0 - this.h/2);
+    // wing on top
+    upperLeft = new PVector(-this.wTop/2 + offsetTop, -this.h/2);
+    upperRight = new PVector(this.wTop/2 + offsetTop, -this.h/2);
     lowerRight = new PVector(this.wBottom/2, this.h/2);
-    lowerLeft = new PVector(0 - this.wBottom/2, this.h/2);
+    lowerLeft = new PVector(-this.wBottom/2, this.h/2);
 
     midBottom = PVector.lerp(lowerLeft, lowerRight, 0.5);
     midTop = PVector.lerp(upperLeft, upperRight, 0.5);
@@ -32,12 +35,24 @@ class Wing {
     lowerThird = PVector.lerp(midBottom, midTop, 0.25);
     upperThird = PVector.lerp(midBottom, midTop, 0.75);
 
+    // wing on bottom
+    iUpperLeft = new PVector(-this.wBottom/2, -this.h/2);
+    iUpperRight = new PVector(this.wBottom/2, -this.h/2);
+    iLowerRight = new PVector(this.wTop/2 + offsetTop, this.h/2);
+    iLowerLeft = new PVector(-this.wTop/2 + offsetTop, this.h/2);
+
+    iMidBottom = PVector.lerp(iUpperLeft, iUpperRight, 0.5);
+    iMidTop = PVector.lerp(iLowerLeft, iLowerRight, 0.5);
+    iMidPoint = PVector.lerp(iMidBottom, iMidTop, 0.5);
+    iLowerThird = PVector.lerp(iMidBottom, iMidTop, 0.25);
+    iUpperThird = PVector.lerp(iMidBottom, iMidTop, 0.75);
+
     flair = new Flair();
   }
 
   void display() {
-    fill(fill_color);
-    stroke(outline_color);
+    fill(this.fill_color);
+    stroke(this.outline_color);
 
     pushMatrix();
     rotate(this.rotation);
@@ -63,6 +78,37 @@ class Wing {
     flair.display();
     popMatrix();
 
+    popMatrix();
+  }
+  
+  // For drawing on the bottom of a ship
+  void displayInverted() {
+    fill(this.fill_color);
+    stroke(this.outline_color);
+    
+    pushMatrix();
+      rotate(-this.rotation);
+      beginShape();
+      vertex(iUpperLeft.x, iUpperLeft.y);
+      vertex(iUpperRight.x, iUpperRight.y);
+      vertex(iLowerRight.x, iLowerRight.y);
+      vertex(iLowerLeft.x, iLowerLeft.y);
+      endShape(CLOSE);
+      
+      pushMatrix();
+      translate(iMidPoint.x, iMidPoint.y);
+      flair.displayReverse();
+      popMatrix();
+  
+      pushMatrix();
+      translate(iLowerThird.x, iLowerThird.y);
+      flair.displayReverse();
+      popMatrix();
+  
+      pushMatrix();
+      translate(iUpperThird.x, iUpperThird.y);
+      flair.displayReverse();
+      popMatrix();
     popMatrix();
   }
 }
@@ -261,8 +307,8 @@ class WingGrid extends Grid {
     }  
 
     if (theControlEvent.isFrom(wingsRotationRange)) {
-      wings_minRotation = int(theControlEvent.getController().getArrayValue(0));
-      wings_maxRotation = int(theControlEvent.getController().getArrayValue(1));
+      wings_minRotation = theControlEvent.getController().getArrayValue(0);
+      wings_maxRotation = theControlEvent.getController().getArrayValue(1);
       println("wings_minRotation, wings_maxRotation: " + wings_minRotation + ", " + wings_maxRotation);
     }  
 

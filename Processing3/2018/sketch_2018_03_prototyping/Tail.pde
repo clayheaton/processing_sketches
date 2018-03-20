@@ -1,6 +1,7 @@
 class Tail {
   int w, h, r, g, b, engines;
   color mainColor, mainColorStroke;
+  float engineWidth, engineHeight;
   Tail() {
     this.w = (int)random(tails_minWidth, tails_maxWidth);
     this.h = (int)random(tails_minHeight, tails_maxHeight);
@@ -12,15 +13,14 @@ class Tail {
     this.mainColor = color(this.r, this.g, this.b);
     color b = color(0);
     this.mainColorStroke = lerpColor(this.mainColor, b, 0.33);
+    this.engineWidth = max(this.w/3,75);
+    this.engineHeight = this.h/max(this.engines,2);
   }
 
   void display() {
     // Engine triangles are dark grey
     fill(80);
     stroke(110);
-    
-    float engineHeight = this.h/max(this.engines,2);
-    float engineWidth = max(this.w/3,75);
     
     float x1, y1, x2, y2, x3, y3, yCenter;
     
