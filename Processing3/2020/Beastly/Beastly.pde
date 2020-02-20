@@ -1,5 +1,5 @@
 
-boolean debug = false;
+boolean debug = true;
 Beast beast;
 
 void setup() {
@@ -7,14 +7,16 @@ void setup() {
   background(255);
   noStroke();
 
-  beast = new Beast(100);
+  beast = new Beast(10);
 }
 
 
 void draw() {
-  if (frameCount % 4 == 0) {
+  if (frameCount % 1 == 0) {
     fill(255, 50);
     rect(0, 0, width, height);
   }
+  //fill(255, 5);
+  //rect(0, 0, width, height);
   beast.display();
 }  

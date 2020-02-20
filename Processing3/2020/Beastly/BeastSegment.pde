@@ -52,6 +52,14 @@ class BeastSegment {
     b.set(a.x+dx, a.y+dy);
   }
 
+  float degreesBetween(){
+    return degrees(PVector.angleBetween(a, b));
+  }
+  
+  float radiansBetween(){
+    return PVector.angleBetween(a, b);
+  }
+
   void update() {
     calculateB();
     for (Brush b : brushes) {
